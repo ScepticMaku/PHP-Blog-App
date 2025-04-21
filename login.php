@@ -18,7 +18,7 @@ if(isset($_POST['submit'])) {
 
     if($user_info && password_verify($_POST['password'], $user_info['password'])) {
         $_SESSION['users'] = $user_info;
-        header('Location: user.php');
+        header('Location: index.php');
         exit;
     } else {
         $message = 'Invalid username or password';

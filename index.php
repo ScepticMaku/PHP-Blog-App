@@ -37,21 +37,39 @@ $post = new Post();
             margin-bottom: 10px;
             border-radius: 5px;
         }
+
+        button {
+            margin-right: 5px;
+        }
     </style>
 </head>
 <body>
-    <h1>All Blog Posts</h1>
-    <a href="login.php"><button>Login</button></a>
-    <a href="register.php"><button>Register</button></a>
-    <!-- <h2>Welcome <?php echo $_SESSION['users']['first_name']; ?></h2> -->
-    <!-- <a href="blog.php"><button class = "add-blog-button">Add a blog post</button></a> -->
-    <!-- <a href="logout.php"><button>Logout</button></a> -->
-    <?php
-        // get all users from the database and return as an array then loop it inside foreach to create a list
+    <?php 
+    if(isset($_SESSION['users'])) {
+        echo '<h1>Your Blog Posts</h1>';
+        echo '<h2>Welcome'. $_SESSION['users']['first_name'] .'</h2>';
+        echo '<a href="blog.php"><button class = "add-blog-button">Add a blog post</button></a>';
+        echo '<a href="logout.php"><button>Logout</button></a>';
+
+        $posts = $post->getPostsByLoggedInUser($_SESSION['users']['id']);
+        foreach ($posts as $key => $value) {
+            echo '  <li><b>'. $value['title'] . '</b><small> Posted by: ' . $value['first_name'] . '  Posted at: ' . $value['created_at'] . '</small> <p>' . $value['content'] . '</li>';
+        }
+    } else {
+        echo '<h1>All Blog Posts</h1>';
+        echo '<a href="login.php"><button>Login</button></a>';
+        echo '<a href="register.php"><button>Register</button></a>';
+
         $posts = $post->getPosts();
         foreach ($posts as $key => $value) {
             echo '  <li><b>'. $value['title'] . '</b><small> Posted by: ' . $value['first_name'] . '  Posted at: ' . $value['created_at'] . '</small> <p>' . $value['content'] . '</li>';
         }
+    }
+    ?>
+
+
+    <?php
+        // get all users from the database and return as an array then loop it inside foreach to create a list
     ?>
 </body>
 </html>
