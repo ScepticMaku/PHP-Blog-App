@@ -40,15 +40,13 @@ $post = new Post();
     </style>
 </head>
 <body>
-    <h1>All Blog Posts</h1>
-    <a href="login.php"><button>Login</button></a>
-    <a href="register.php"><button>Register</button></a>
-    <!-- <h2>Welcome <?php echo $_SESSION['users']['first_name']; ?></h2> -->
-    <!-- <a href="blog.php"><button class = "add-blog-button">Add a blog post</button></a> -->
-    <!-- <a href="logout.php"><button>Logout</button></a> -->
+    <h1>Your Blog Posts</h1>
+    <h2>Welcome <?php echo $_SESSION['users']['first_name']; ?></h2>
+    <a href="blog.php"><button class = "add-blog-button">Add a blog post</button></a>
+    <a href="logout.php"><button>Logout</button></a>
     <?php
         // get all users from the database and return as an array then loop it inside foreach to create a list
-        $posts = $post->getPosts();
+        $posts = $post->getPostsByLoggedInUser($_SESSION['users']['id']);
         foreach ($posts as $key => $value) {
             echo '  <li><b>'. $value['title'] . '</b><small> Posted by: ' . $value['first_name'] . '  Posted at: ' . $value['created_at'] . '</small> <p>' . $value['content'] . '</li>';
         }
