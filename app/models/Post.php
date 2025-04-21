@@ -14,14 +14,14 @@ class Post extends Database {
     }
 
     public function getPosts() {
-        $sql = "SELECT posts.id, title, content, users.first_name AS first_name, posts.created_at FROM posts INNER JOIN users ON posts.author_id = users.id";
+        $sql = "SELECT posts.id, title, content, users.first_name AS first_name, posts.created_at FROM posts INNER JOIN users ON posts.author_id = users.id ORDER BY posts.id DESC";
         $stmt = $this->db->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
 
     public function getPostsByLoggedInUser($id) {
-        $sql = "SELECT posts.id, title, content, users.first_name AS first_name, posts.created_at FROM posts INNER JOIN users ON posts.author_id = users.id WHERE author_id = :id";
+        $sql = "SELECT posts.id, title, content, users.first_name AS first_name, posts.created_at FROM posts INNER JOIN users ON posts.author_id = users.id WHERE author_id = :id ORDER BY posts.id DESC";
         $stmt = $this->db->prepare($sql);
         $stmt->execute([
             'id' => $id
